@@ -1,62 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Get a Second Opinion</title>
-  <link rel="stylesheet" href="homepage.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <script type="module">
-    import LocomotiveScroll from 'locomotive-scroll';
-    const locomotiveScroll = new LocomotiveScroll();
-  </script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Get a Second Opinion</title>
+<link rel="stylesheet" href="homepage.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Reset & Base */
+:root {
+    --primary: #0077cc;
+    --secondary: #66d1d1;
+    --accent: #ffc861;
+    --background: #f7f9fa;
+    --text-dark: #333333;
+    --text-light: #eeeeee;
+    --error: #ff5c5c;
+}
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    color: var(--text-light);
+    background-color: var(--text-dark);
+    overflow-x: hidden;
+}
+.hero-image {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    margin-bottom: 2rem;
+    object-fit: cover;
+    transition: width 0.5s, height 0.5s, max-width 0.5s, max-height 0.5s, border-radius 0.5s, box-shadow 0.5s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.hero.scrolled .hero-image {
+    width: 420px;
+    height: 280px;
+    max-width: 80vw;
+    max-height: 50vh;
+    border-radius: 2rem;
+    position: static;
+    margin-bottom: 2rem;
+    z-index: auto;
+}
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--text-dark);
+    position: relative;
+    padding: 0 20px;
+    opacity: 1;
+    transform: translateY(20px) scale(1);
+    will-change: transform, opacity;
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.hero-image {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    object-fit: cover;
+    transition: 
+        width 0.7s cubic-bezier(.77,0,.18,1), 
+        height 0.7s cubic-bezier(.77,0,.18,1), 
+        max-width 0.7s cubic-bezier(.77,0,.18,1), 
+        max-height 0.7s cubic-bezier(.77,0,.18,1), 
+        border-radius 0.7s cubic-bezier(.77,0,.18,1), 
+        box-shadow 0.7s cubic-bezier(.77,0,.18,1),
+        left 0.7s cubic-bezier(.77,0,.18,1),
+        top 0.7s cubic-bezier(.77,0,.18,1),
+        transform 0.7s cubic-bezier(.77,0,.18,1);
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
+    transform-origin: center center;
+}
+.hero.scrolled .hero-image {
+    width: calc(100vw - 200px);   /* 100px margin left and right */
+    height: 100vh;
+    max-width: 1600px;
+    max-height: 90vh;
+    border-radius: 2rem;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+    z-index: 10;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(51, 51, 51, 0.6);
+    z-index: 1;
+}
+.hero-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+hero-content {
+    position: relative;
+    z-index: 8;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-light);
+    background-color: var(--text-dark);
+    overflow-x: hidden;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+}
+
+.hero-content h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent);
+    z-index: 3;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    opacity: 1;
+    transition: opacity 0.7s cubic-bezier(.77,0,.18,1);
+}
+
+.tagline {
+    font-size: 1.3rem;
+    color: var(--text-light);
+    z-index: 3;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    opacity: 1;
+    transition: opacity 0.7s cubic-bezier(.77,0,.18,1);
+}
+
+.hero.scrolled .hero-content h1,
+.hero.scrolled .tagline {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Fade-in animation class */
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Introduction Section */
+.introduction {
+    background-color: var(--text-dark);
+    color: var(--text-light);
+    padding: 80px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.introduction.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.introduction .container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.introduction h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.introduction p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+/* Locomotive Scroll fade/scale transition */
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(20px) scale(1.05);
+  transition: all 0.8s ease-out;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text-light);
+  padding: 4rem 2rem;
+  margin: 4rem auto;
+  max-width: 800px;
+  clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-fade.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ribbon-column {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  position: relative;
+  gap: 40px;
+}
+
+.ribbon {
+  position: relative;
+  width: 280px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  cursor: default;
+  opacity: 0;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+/* Left ribbons point right */
+.ribbon.left {
+  background: linear-gradient(135deg, #4a90e2, #357ABD);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 30px) 0,
+    100% 50%,
+    calc(100% - 30px) 100%,
+    0 100%
+  );
+  transform: translateX(-120%);
+  box-shadow: 4px 6px 15px rgba(53, 122, 189, 0.3);
+  align-self: flex-start;
+  margin-left: 0;
+  z-index: 1;
+}
+
+.ribbon.left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Right ribbons point left */
+.ribbon.right {
+  background: linear-gradient(135deg, #e94e77, #d43f5c);
+  clip-path: polygon(
+    30px 0,
+    100% 0,
+    100% 100%,
+    30px 100%,
+    0 50%
+  );
+  transform: translateX(120%);
+  box-shadow: -4px 6px 15px rgba(212, 63, 92, 0.3);
+  align-self: flex-end;
+  margin-right: 0;
+  margin-left: 140px;
+  z-index: 1;
+}
+
+.ribbon.right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
 </head>
 <body>
-    <section class="hero" data-scroll-section>
+<section class="hero">
   <div class="hero-content">
-    <img 
+    <img
       src="https://www.innovationnewsnetwork.com/wp-content/uploads/2020/08/AI-in-medical-imaging.jpg"
       alt="Medical Imaging"
       class="hero-image"
     />
-    <h1 data-scroll data-scroll-speed="0.5">Get a Second Opinion on Your Complex Disease/Diagnosis</h1>
-    <p data-scroll data-scroll-speed="0.8" class="tagline">Empowering Patients, Empowering Choices</p>
+    <h1>Get a Second Opinion on Your Complex Disease/Diagnosis</h1>
+    <p class="tagline">Empowering Patients, Empowering Choices</p>
   </div>
 </section>
-    <main style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <div>
-            <h1 data-scroll data-scroll-speed="0.5" style="text-align: center;">Get a Second Opinion on Your Complex Disease/Diagnosis</h1>
-            <p data-scroll data-scroll-speed="0.8" class="tagline" style="text-align: center;">Empowering Patients, Empowering Choices</p>
-        </div>
-    </main>
-<section class="introduction fade-in" data-scroll-section>
-    <div class="container" 
-         data-scroll 
-         data-scroll-speed="1" 
-         data-scroll-direction="horizontal" 
-         data-scroll-smooth="true"
-         style="white-space: nowrap; overflow-x: auto; max-width: 100vw; box-sizing: border-box;">
-        <div style="display: inline-block; background: #000000; padding: 2rem; border-radius: 1rem; box-shadow: 0 2px 16px rgba(0,0,0,0.08); min-width: 60vw;">
-            <h2>Why Seek a Second Opinion?</h2>
-            <p>
-                Navigating a complex disease or diagnosis can be overwhelming. Our app is designed to empower you with the knowledge and confidence to make informed healthcare decisions.
-            </p>
-            <p>
-                Seeking a second opinion ensures you have access to the latest expertise and treatment options. We connect you with top medical professionals who provide personalized insights tailored to your unique situation.
-            </p>
-            <p>
-                Take control of your health journey—get clarity, confidence, and peace of mind with expert guidance.
-            </p>
-        </div>
+
+<section class="introduction fade-in">
+  <div class="container">
+    <div class="ribbon-column">
+      <div class="ribbon left" data-text="Expert Medical Reviews">Expert Medical Reviews</div>
+      <div class="ribbon right" data-text="Personalized Care Plans">Personalized Care Plans</div>
+      <div class="ribbon left" data-text="Advanced Diagnostics">Advanced Diagnostics</div>
+      <div class="ribbon right" data-text="Patient Empowerment">Patient Empowerment</div>
+      <div class="ribbon left" data-text="Trusted Healthcare Network">Trusted Healthcare Network</div>
+      <div class="ribbon right" data-text="Confidential Consultations">Confidential Consultations</div>
     </div>
+  </div>
 </section>
-</section>
-  <script src="homepage.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@beta/bundled/locomotive-scroll.min.js"></script>
+
 <script>
-    (function () {
-        const locomotiveScroll = new LocomotiveScroll();
-    })();
+// Intersection Observer for scroll-triggered animations
+const observerOptions = {
+  threshold: 0.3, // Trigger when 30% of element is visible
+  rootMargin: '0px 0px -50px 0px' // Slight offset from bottom
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    } else {
+      entry.target.classList.remove('visible');
+    }
+  });
+}, observerOptions);
+
+// Initialize observers when page loads
+window.addEventListener('load', () => {
+  // Observe ribbons for individual fade-in
+  const ribbons = document.querySelectorAll('.ribbon');
+  ribbons.forEach(ribbon => {
+    observer.observe(ribbon);
+  });
+  
+  // Observe other fade-in elements
+  const fadeElements = document.querySelectorAll('.fade-in');
+  fadeElements.forEach(element => {
+    observer.observe(element);
+  });
+});
+
+// Optional: Add smooth scrolling behavior
+document.documentElement.style.scrollBehavior = 'smooth';
+</script>
+<script>
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero');
+    if (window.scrollY > 50) {
+      hero.classList.add('scrolled');
+    } else {
+      hero.classList.remove('scrolled');
+    }
+  });
 </script>
 </body>
 </html>
